@@ -1,5 +1,6 @@
 import json
-import datetime 
+import datetime
+import subprocess
 
 #Leitura da solicitação
 f = open('.bolsaFNDE.temp', 'r')
@@ -25,8 +26,11 @@ while i < qtdPagamentos:
     i+=1
 
 if pagRealizado > 0:
-    if pagRealizado == 1:
-        print('Foi realizado', pagRealizado ,'pagamento neste mês, referente a',bolsista['pagamentos'][-1]['referencia'])
+    if pagRealizado == 1: 
+        #print('Foi realizado', pagRealizado ,'pagamento neste mês, referente a',bolsista['pagamentos'][-1]['referencia'])
+        # em testes        
+        output = 'echo "\\e[38;5;76mFoi realizado '+str(pagRealizado)+' pagamento neste mês, referente a '+bolsista['pagamentos'][-1]['referencia']+'\\e[39m"'
+        subprocess.call(output, shell=True)
         print()
         print('--Resumo do pagamento--')
         print('Ordem bancária:',bolsista['pagamentos'][-1]['ordermBancaria'],sep=' ')
@@ -34,6 +38,8 @@ if pagRealizado > 0:
         print('Data:',bolsista['pagamentos'][-1]['data'],sep=' ')
         print('Valor:',bolsista['pagamentos'][-1]['valor'],sep=' ')
     else:
+        output = 'echo "\\e[38;5;46mForam realizados '+str(pagRealizado)+' pagamentos neste mês\\e[39m"'
+        subprocess.call(output, shell=True)
         print('Foram realizados', pagRealizado ,'pagamentos neste mês')
         print()
         print('--Resumo dos pagamentos--')
@@ -46,7 +52,9 @@ if pagRealizado > 0:
                     print()
         
 else:
-    print('Não foi realizado nenhum pagamento este mês')
+    
+    output = 'echo "\\e[38;5;220mNão foi realizado nenhum pagamento este mês\\e[39m"'
+    subprocess.call(output, shell=True)
     print('--Último pagamento--')
     print('Ordem bancária:',bolsista['pagamentos'][-1]['ordermBancaria'],sep=' ')
     print('Referente a:',bolsista['pagamentos'][-1]['referencia'],sep=' ')

@@ -1,6 +1,7 @@
+#!/bin/bash
 filename=.bolsaFNDE.temp
 echo "Faça uma consulta da sua bolsa no site do FNDE.
-Abrindo o navegador..."
+\e[2mAbrindo o navegador...\e[22m"
 xdg-open 2>.xdg-open.log https://www.fnde.gov.br/consulta-publica/pagamento-bolsa-executado/#/app/consultar/0/0 
 sleep 1
 
