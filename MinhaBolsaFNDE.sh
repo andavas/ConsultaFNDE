@@ -19,8 +19,18 @@ else
 fi
 
 outputFNDE=".bolsaFNDE.temp"
-wget -cq https://www.fnde.gov.br/digef/rs/spba/publica/pagamento/$(<.userID.dat) -O - | python -m json.tool > "$outputFNDE"
-python3 .parsingJSON.py
+echo "Verificando bolsa no site do FNDE..."
+wget -cq https://www.fnde.gov.br/digef/rs/spba/publica/pagamento/$(<.userID.dat) -O - > "$outputFNDE"
+# verifica se o arquivo recebido está vazio
+if [[ -n $(<$outputFNDE) ]]; then
+    echo "Concluído! Organizando dados..."
+    sleep 0.1
+    clear
+    python3 .parsingJSON.py   
+else
+    echo -e "\e[38;5;196mHouve um problema ao consultar os dados.\e[39m"
+fi
+
 echo
 echo "===================="
 echo "Consultado em:"

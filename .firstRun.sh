@@ -22,10 +22,25 @@ do
     fi
 
     echo "Consultando seus dados..."
-    wget -cq https://www.fnde.gov.br/digef/rs/spba/publica/pessoa/1/10/$CPF -O - | python -m json.tool > "$infoCpf"
+    wget -cq https://www.fnde.gov.br/digef/rs/spba/publica/pessoa/1/10/$CPF -O - > "$infoCpf"
+    if [[ -z $(<$infoCpf) ]]; then
+        echo "Houve um problema ao consultar os dados."
+        rm $infoCpf
+        echo "Aperte ENTER para sair"
+        read
+        exit
+    fi
     touch .userID.dat
     python3 .userget.py
-    wget -cq https://www.fnde.gov.br/digef/rs/spba/publica/pagamento/$(<.userID.dat) -O - | python -m json.tool > "$infoBolsa"
+    wget -cq https://www.fnde.gov.br/digef/rs/spba/publica/pagamento/$(<.userID.dat) -O - > "$infoBolsa"
+        if [[ -z $(<$infoBolsa) ]]; then
+        echo "Houve um problema ao consultar os dados."
+        rm $infoCpf
+        rm $infoBolsa
+        echo "Aperte ENTER para sair"
+        read
+        exit
+    fi
     echo "Por favor confirme os seus dados abaixo:"
     python3 .usertest.py
     read -p "Está correto? (s/n)" answer

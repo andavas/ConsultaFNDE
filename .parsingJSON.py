@@ -19,11 +19,12 @@ print('Beneficiário:',response['cpf'],'-',response['nome'],'-',bolsista['nome']
 print('Pagamentos:',qtdPagamentos,sep=' ')
 print()
 
-while i < qtdPagamentos:
+for i in range(qtdPagamentos):
     dataPag = datetime.datetime.strptime(bolsista['pagamentos'][i]['data'], '%d/%m/%Y')
-    if dataPag.month == hoje.month:
-        pagRealizado += 1
-    i+=1
+    if dataPag.year == hoje.year:
+        if dataPag.month == hoje.month:
+            pagRealizado += 1
+        i+=1
 
 if pagRealizado > 0:
     if pagRealizado == 1: 
