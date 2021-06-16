@@ -1,0 +1,1 @@
+wsl.exe "./MinhaBolsaFNDE.sh"
